@@ -1,0 +1,2 @@
+# gotips
+golang tips

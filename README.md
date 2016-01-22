@@ -1,1 +1,1 @@
-![header](https://raw.githubusercontent.com/beyoundns/gotips/master/resources/gophers.jpg)
+![header](https://raw.githubusercontent.com/beyondns/gotips/master/gophers.jpg)

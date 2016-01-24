@@ -24,6 +24,10 @@ a = a[:len(a)-1]
 
 ```
 
+* [SliceTricks](https://github.com/golang/go/wiki/SliceTricks)
+
+### Links
+* [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)
 
 ### License
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)

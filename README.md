@@ -8,6 +8,11 @@ This list of short golang code tips & trics will help keep collected knowledge i
 > 2016-24-01
 
 ```golang
+// Slice is a struct - description of memory
+
+// Function argument
+func f(s []T) // s - passed by value, but memory the same 
+
 // Append
 a = append(a, b...)
 
@@ -17,6 +22,8 @@ copy(b,a)
 
 // Remove element, keep order
 a = a[:i+copy(a[i:], a[i+1:])]
+// or
+a = append(a[:i], a[i+1:]...)
 
 // Remove element, change order
 a[i] = a[len(a)-1] 

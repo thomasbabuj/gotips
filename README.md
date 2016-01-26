@@ -45,7 +45,8 @@ m[K1][K2]=V
 
 // Implemet set with empty struct 
 s := make(map[TK]struct{})
-s[K]=struct{}{}
+s[K]=struct{}{} // set K
+delete(s,K)     // unset K
 ```
 ## #0 - Slices
 > 2016-24-01

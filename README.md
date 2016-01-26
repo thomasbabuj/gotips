@@ -42,6 +42,10 @@ func f(m *M)// m - passed by reference, but memory the same
 m := make(map[TK1]map[TK2]TV)
 m[K1]=make(map[TK2]TV)
 m[K1][K2]=V
+
+// Implemet set with empty struct 
+m := map[TK]struct{}{}
+m[K]=struct{}{}
 ```
 ## #0 - Slices
 > 2016-24-01

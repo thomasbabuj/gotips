@@ -4,8 +4,19 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tip #0 as a reference.
 
+## #2 - Import packages
+> 2016-26-01
+
+```golang
+import "fmt"    // fmt.Print()
+import ft "fmt" // ft.Print()
+import . "fmt"  // Print()
+import _ "fmt"  // not use, but run init
+
+```
+
 ## #1 - Map
-> 2016-24-01
+> 2016-26-01
 
 Map is a key-value storage
 ```golang

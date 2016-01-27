@@ -4,6 +4,89 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tip #0 as a reference.
 
+## #3 - Http request/response with close notify and timeout
+> 2016-27-01
+
+
+```golang
+const RequestMaxWaitTimeInterval = time.Second * 15
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+	u:=r.URL.Query().Get("url")
+	if u==""{
+		http.Error(w, "url is not specified", http.StatusBadRequest)
+		return
+	}
+	var err error
+	u,err=url.QueryUnescape(u)
+	if err!=nil{
+		http.Error(w, fmt.Sprintf("url unescape error %v",err), http.StatusBadRequest)
+		return
+	}
+	closeNotify := w.(http.CloseNotifier).CloseNotify()
+	//flusher := w.(http.Flusher)
+
+	tr := &http.Transport{}
+	client := &http.Client{Transport: tr}
+	c := make(chan error, 1)
+
+	req, err := http.NewRequest("GET", u, nil)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error %v", err), http.StatusBadRequest)
+		return
+	}
+
+	go func() {
+		resp, err := client.Do(req)
+
+		defer func() { c <- err }()
+		defer func() {
+			if resp != nil && resp.Body != nil {
+				resp.Body.Close()
+			}
+		}()
+
+		if err != nil {
+			return
+		}
+
+		if resp.StatusCode != 200 {
+			http.Error(w, fmt.Sprintf("resp.StatusCode %s", resp.Status), resp.StatusCode)
+			return
+		}
+
+		data, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("ioutil.ReadAll, error %v", err), http.StatusBadRequest)
+			return
+		}
+
+		w.Header().Set("My-custom-header", "my-header-data")
+		w.WriteHeader(http.StatusOK)
+		w.Write(data)
+
+	}()
+	select {
+	case <-time.After(RequestMaxWaitTimeInterval):
+		tr.CancelRequest(req)
+		log.Printf("Request timeout")
+		<-c // Wait for goroutine to return.
+		return
+	case <-closeNotify:
+		tr.CancelRequest(req)
+		log.Printf("Request canceled")
+		<-c // Wait for goroutine to return.
+		return
+	case err := <-c:
+		if err!=nil{
+			log.Printf("Error in request goroutine %v",err)
+		}
+		return
+	}
+}
+```
+
+
 ## #2 - Import packages
 > 2016-26-01
 
@@ -12,7 +95,6 @@ import "fmt"    // fmt.Print()
 import ft "fmt" // ft.Print()
 import . "fmt"  // Print()
 import _ "fmt"  // not use, but run init
-
 ```
 
 ## #1 - Map

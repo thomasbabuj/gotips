@@ -8,7 +8,7 @@ This list of short golang code tips & trics will help keep collected knowledge i
 > 2016-27-01
 
 
-```golang
+```go
 const RequestMaxWaitTimeInterval = time.Second * 15
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -90,7 +90,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 ## #2 - Import packages
 > 2016-26-01
 
-```golang
+```go
 import "fmt"    // fmt.Print()
 import ft "fmt" // ft.Print()
 import . "fmt"  // Print()
@@ -101,7 +101,7 @@ import _ "fmt"  // not use, but run init
 > 2016-26-01
 
 Map is a key-value storage
-```golang
+```go
 // Set/Get/Test 
 m[k]=v
 v=m[k]

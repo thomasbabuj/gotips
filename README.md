@@ -4,19 +4,20 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tip #0 as a reference.
 
-## #4 - Check if channel is closed
+## #4 - Is channel closed
 > 2016-28-01
 
 ```go
 	c:=make(chan int)
 	go func(){
 		if _, ok :=<-c;ok{
-			fmt.Println("ok",<-c)
+			fmt.Println("not closed",<-c)
 		} else {
-			fmt.Println("!ok",<-c)
+			fmt.Println("closed",<-c)
 		}
 			
 	}()
+	// c<-1
 	close(c)
 	time.Sleep(time.Second)	
 

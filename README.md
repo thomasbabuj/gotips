@@ -4,7 +4,28 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tip #0 as a reference.
 
-## #4 - Is channel closed
+
+## #5 - Close channel to notify many
+> 2016-28-01
+
+```go
+	c:=make(chan int)
+
+	for i:=0;i<5;i++{
+		go func(i int){ 
+			_, ok :=<-c;
+			fmt.Printf("closed %d, %t\n",i,ok) // random order
+		}(i)
+	}
+
+
+	// c<-1
+	close(c)
+	time.Sleep(time.Second)	
+
+```
+
+## #4 - Is channel closed?
 > 2016-28-01
 
 ```go
@@ -198,7 +219,7 @@ a = a[:len(a)-1]
 * [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)
 
 ### Inspired by
-
+[jstips](https://github.com/loverajoel/jstips)
 
 ### License
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)

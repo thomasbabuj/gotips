@@ -5,6 +5,65 @@
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
+## #6 - Fast http server
+> 2016-01-02
+
+If you don't need http functionality just use net and "tcp"
+
+```go
+
+func main() {
+
+	host := flag.String("h", "127.0.0.1:8000", "h host:port")
+
+	flag.Parse()
+
+	l, err := net.Listen("tcp", *host)
+	if err != nil {
+		fmt.Println("Error listening:", err.Error())
+		os.Exit(1)
+	}
+
+	defer l.Close()
+
+	conns := make(chan *net.Conn, 1024*16)
+
+	go func() {
+		for {
+			select {
+			case conn := <-conns:
+				go handleRequest(conn)
+			}
+		}
+	}()
+
+	fmt.Println("Listening on " + *host)
+	for {
+		conn, err := l.Accept()
+		if err != nil {
+			continue
+		}
+		conns <- &conn
+	}
+}
+
+func handleRequest(c *net.Conn) {
+	defer (*c).Close()
+	buf := make([]byte, 4096)
+	n, err := (*c).Read(buf)
+	if err != nil || n <= 0 {
+		return
+	}
+	(*c).Write([]byte("HTTP/1.1 200 Ok\r\nConnection: close\r\nContent-Length: 5\r\n\r\nhello"))
+}
+
+```
+Just test it
+
+```bash
+./wrk -c 1024 -d 20s http://127.0.0.1:8000
+```
+
 ## #5 - Close channel to notify many
 > 2016-28-01
 

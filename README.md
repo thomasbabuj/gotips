@@ -63,11 +63,14 @@ func main() {
 
 func handleRequest(c *net.Conn) {
 	defer (*c).Close()
-	buf := make([]byte, 4096)
+	buf := make([]byte, 4096) // tip: use preallocated
 	n, err := (*c).Read(buf)
 	if err != nil || n <= 0 {
 		return
 	}
+
+	// parse http 
+
 	(*c).Write([]byte("HTTP/1.1 200 Ok\r\nConnection: close\r\nContent-Length: 5\r\n\r\nhello"))
 }
 

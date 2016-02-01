@@ -25,26 +25,40 @@ func main() {
 	}
 
 	defer l.Close()
+	var N = runtime.NumCPU()
 
-	conns := make(chan *net.Conn, 1024*16)
+	conns := make([]chan *net.Conn, N)
 
-	go func() {
-		for {
-			select {
-			case conn := <-conns:
-				go handleRequest(conn)
+	for i := 0; i < N; i++ {
+
+		conns[i] = make(chan *net.Conn, 1024)
+
+		go func(i int) {
+			for {
+				select {
+				case conn := <-conns[i]:
+					go handleRequest(conn)
+				}
 			}
-		}
-	}()
+		}(i)
+	}
 
-	fmt.Println("Listening on " + *host)
+	fmt.Printf("Listening on %s, N=%d\n", *host, N)
+	var i = 0
 	for {
 		conn, err := l.Accept()
 		if err != nil {
 			continue
 		}
-		conns <- &conn
+
+		// why not just?
+		// go handleRequest(&conn)
+
+		// both works, but this one could be faster
+		conns[i] <- &conn
+		i = (i + 1) % N // round robin
 	}
+
 }
 
 func handleRequest(c *net.Conn) {

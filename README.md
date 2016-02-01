@@ -64,6 +64,8 @@ Just test it
 ./wrk -c 1024 -d 20s http://127.0.0.1:8000
 ```
 
+* [fasthttp](https://github.com/valyala/fasthttp)
+
 ## #5 - Close channel to notify many
 > 2016-28-01
 

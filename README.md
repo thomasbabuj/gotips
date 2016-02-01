@@ -2,7 +2,7 @@
 
 > **Golang short tips & trics**
 
-This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tip #0 as a reference.
+This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
 ## #5 - Close channel to notify many
@@ -140,7 +140,7 @@ import _ "fmt"  // not use, but run init
 ## #1 - Map
 > 2016-26-01
 
-Map is a key-value storage
+Map is a hash table
 ```go
 // Set/Get/Test 
 m[k]=v
@@ -170,6 +170,8 @@ s := make(map[TK]struct{})
 s[K]=struct{}{} // set K
 delete(s,K)     // unset K
 ```
+* [go-maps-in-action](https://blog.golang.org/go-maps-in-action)
+
 ## #0 - Slices
 > 2016-24-01
 
@@ -212,7 +214,7 @@ a[i] = a[len(a)-1]
 a = a[:len(a)-1]
 
 ```
-
+* [go-slices-usage-and-internals](https://blog.golang.org/go-slices-usage-and-internals)
 * [SliceTricks](https://github.com/golang/go/wiki/SliceTricks)
 
 ### Links

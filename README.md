@@ -107,25 +107,8 @@ func main() {
 	}
 
 	defer l.Close()
-	var N = runtime.NumCPU()
 
-	conns := make([]chan *net.Conn, N)
-
-	for i := 0; i < N; i++ {
-
-		conns[i] = make(chan *net.Conn, 1024)
-
-		go func(i int) {
-			for {
-				select {
-				case conn := <-conns[i]:
-					go handleRequest(conn)
-				}
-			}
-		}(i)
-	}
-
-	fmt.Printf("Listening on %s, N=%d\n", *host, N)
+	fmt.Printf("Listening on %s\n", *host)
 	var i = 0
 	for {
 		conn, err := l.Accept()
@@ -133,12 +116,7 @@ func main() {
 			continue
 		}
 
-		// why not just?
-		// go handleRequest(&conn)
-
-		// both works, but this one could be faster
-		conns[i] <- &conn
-		i = (i + 1) % N // round robin
+		go handleRequest(&conn)
 	}
 
 }
@@ -164,7 +142,7 @@ Just test it
 ```
 
 * [fasthttp](https://github.com/valyala/fasthttp)
-
+* [handling-1-million-requests-per-minute-with-golang](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)
 ## #5 - Close channel to notify many
 > 2016-28-01
 

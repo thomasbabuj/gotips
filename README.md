@@ -5,10 +5,92 @@
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
+## #7 - Sort slice of time periods
+> 2016-02-02
+
+For custom data structures it's necessary to use custom compare function to sort elements in slice.
+
+```go
+
+type xTime struct {
+	time.Time
+}
+
+func (t *xTime) UnmarshalJSON(buf []byte) error {
+	tm, err := time.Parse("2006-01-02", strings.Trim(string(buf), `"`))
+	if err != nil {
+		return err
+	}
+	t.Time = tm
+	return nil
+}
+
+type Period struct {
+	Start xTime `json:"start"`
+	End   xTime `json:"end"`
+}
+
+type Data struct {
+	Ps []Period `json:"periods"`
+}
+
+type Periods []Period
+
+func (a Periods) Len() int           { return len(a) }
+func (a Periods) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a Periods) Less(i, j int) bool { return compDate(a[i].Start, a[j].Start) < 0 }
+
+func compDate(a, b xTime) int {
+	ay, am, ad := a.Time.Date()
+	by, bm, bd := b.Time.Date()
+	if ay > by {
+		return 1
+	}
+	if ay < by {
+		return -1
+	}
+
+	if am > bm {
+		return 1
+	}
+	if am < bm {
+		return -1
+	}
+
+	if ad > bd {
+		return 1
+	}
+	if ad < bd {
+		return -1
+	}
+
+	return 0
+}
+
+func main() {
+
+	data := `
+{"periods": [
+    {"start": "2015-11-01", "end": "2015-11-01"},
+    {"start": "2015-12-02", "end": "2015-12-03"},
+    {"start": "2015-12-07", "end": "2015-12-13"},
+    {"start": "2015-10-18", "end": "2016-10-30"}
+  ]}
+`
+	var d Data
+	if err := json.Unmarshal([]byte(data), &d); err != nil {
+	}
+	sort.Sort(Periods(d.Ps))
+	fmt.Printf("%v", d)
+
+}
+
+```
+
 ## #6 - Fast http server
 > 2016-01-02
 
-If you don't need http functionality just use net and "tcp"
+If you don't need net/http package functionality just use net and "tcp"
 
 ```go
 
@@ -63,13 +145,13 @@ func main() {
 
 func handleRequest(c *net.Conn) {
 	defer (*c).Close()
-	buf := make([]byte, 4096) // tip: use preallocated
+	buf := make([]byte, 2048) // tip: use preallocated
 	n, err := (*c).Read(buf)
 	if err != nil || n <= 0 {
 		return
 	}
 
-	// parse http 
+	// parse http if necessary 
 
 	(*c).Write([]byte("HTTP/1.1 200 Ok\r\nConnection: close\r\nContent-Length: 5\r\n\r\nhello"))
 }

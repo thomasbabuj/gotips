@@ -4,6 +4,27 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
+## #8 - Memory management with pools of objects
+> 2016-04-02
+
+Use pools to collect objects for reuse.
+
+```go
+var p sync.Pool
+var o *T
+if v := p.Get(); v != nil {
+	o = v.(*T)
+} else {
+	o = new(T)
+}
+
+// use o
+
+p.Put(o) // return to reuse
+
+```
+
+* [manual memory management](https://github.com/teh-cmc/mmm)
 
 ## #7 - Sort slice of time periods
 > 2016-02-02

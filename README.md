@@ -378,8 +378,9 @@ a = a[:len(a)-1]
 ```
 * [go-slices-usage-and-internals](https://blog.golang.org/go-slices-usage-and-internals)
 * [SliceTricks](https://github.com/golang/go/wiki/SliceTricks)
+* [tips-for-using-array-and-slices-in-golang](http://blog.stoneriverelearning.com/tips-for-using-array-and-slices-in-golang/)
 
-### Links
+### General Golanf links
 * [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)
 
 ### Inspired by

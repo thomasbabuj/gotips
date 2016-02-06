@@ -7,11 +7,11 @@ This list of short golang code tips & trics will help keep collected knowledge i
 ## #8 - Memory management with pools of objects
 > 2016-04-02
 
-Use pools to collect objects for reuse.
+Use thread safe pools to collect objects for reuse.
 
 ```go
 var p sync.Pool
-var o *T
+var o *T 
 if v := p.Get(); v != nil {
 	o = v.(*T)
 } else {
@@ -23,7 +23,7 @@ if v := p.Get(); v != nil {
 p.Put(o) // return to reuse
 
 ```
-
+* [pool](https://golang.org/src/sync/pool.go)
 * [manual memory management](https://github.com/teh-cmc/mmm)
 
 ## #7 - Sort slice of time periods
@@ -100,6 +100,7 @@ func main() {
 `
 	var d Data
 	if err := json.Unmarshal([]byte(data), &d); err != nil {
+		panic(err)
 	}
 	sort.Sort(Periods(d.Ps))
 	fmt.Printf("%v", d)

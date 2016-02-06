@@ -4,8 +4,47 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
+## #9 - Error handling
+> 2016-06-02 by [@beyondns](https://github.com/beyondns)
+
+Use last return variable in function as an error  
+Use panic / defer / recover to handle more complex errors
+
+```go
+
+func MyFunc1(v interface{}) (interface{}, error) {
+	var ok bool
+
+	if !ok {
+		return nil, errors.New("not ok error")
+	}
+	return v, nil
+}
+
+func MyFunc2() {
+	defer func() {
+		if err := recover(); err != nil {
+			// recover from panic
+			fmt.Println("recover: ", err)
+		}
+	}()
+	v := struct{}{}
+	if _, err := MyFunc1(v); err != nil {
+		panic(err) // panic
+	}
+
+	fmt.Println("never happen")
+}
+
+func main() {
+	MyFunc2()
+	fmt.Println("main finish")
+}
+
+```
+
 ## #8 - Memory management with pools of objects
-> 2016-04-02
+> 2016-04-02 by [@beyondns](https://github.com/beyondns)
 
 Use thread safe pools to collect objects for reuse.
 
@@ -27,7 +66,7 @@ p.Put(o) // return to reuse
 * [manual memory management](https://github.com/teh-cmc/mmm)
 
 ## #7 - Sort slice of time periods
-> 2016-02-02
+> 2016-02-02 by [@beyondns](https://github.com/beyondns)
 
 For custom data structures it's necessary to use custom compare function to sort elements in slice.
 
@@ -110,7 +149,7 @@ func main() {
 ```
 
 ## #6 - Fast http server
-> 2016-01-02
+> 2016-01-02 by [@beyondns](https://github.com/beyondns)
 
 If you don't need net/http package functionality just use net and "tcp"
 
@@ -168,7 +207,7 @@ Just test it
 
 
 ## #5 - Close channel to notify many
-> 2016-28-01
+> 2016-28-01 by [@beyondns](https://github.com/beyondns)
 
 ```go
 	c:=make(chan int)
@@ -207,7 +246,7 @@ Just test it
 ```
 
 ## #3 - Http request/response with close notify and timeout
-> 2016-27-01
+> 2016-27-01 by [@beyondns](https://github.com/beyondns)
 
 
 ```go
@@ -290,7 +329,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 
 ## #2 - Import packages
-> 2016-26-01
+> 2016-26-01 by [@beyondns](https://github.com/beyondns)
 
 ```go
 import "fmt"    // fmt.Print()
@@ -335,7 +374,7 @@ delete(s,K)     // unset K
 * [go-maps-in-action](https://blog.golang.org/go-maps-in-action)
 
 ## #0 - Slices
-> 2016-24-01
+> 2016-24-01 by [@beyondns](https://github.com/beyondns)
 
 Slice is a dynamic array
 ```golang
@@ -378,7 +417,6 @@ a = a[:len(a)-1]
 ```
 * [go-slices-usage-and-internals](https://blog.golang.org/go-slices-usage-and-internals)
 * [SliceTricks](https://github.com/golang/go/wiki/SliceTricks)
-* [tips-for-using-array-and-slices-in-golang](http://blog.stoneriverelearning.com/tips-for-using-array-and-slices-in-golang/)
 
 ### General Golanf links
 * [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)

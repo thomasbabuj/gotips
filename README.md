@@ -4,6 +4,54 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
+## #10 - HTTP2
+> 2016-07-02 by [@beyondns](https://github.com/beyondns)
+
+[Go 1.6's net/http package supports HTTP/2 for both the client and server out of the box.](https://github.com/golang/go/wiki/Go-1.6-release-party)
+
+Generate key & cert files with openssl
+```bash
+openssl req -x509 -newkey rsa:2048 -nodes -keyout srv.key -out srv.cert -days 365
+```
+
+HTTP2 server
+```go
+import (
+	"fmt"
+	"log"
+	"flag"
+	"net/http"	
+	"golang.org/x/net/http2"
+)
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello http2")
+}
+
+func main() {
+	var server http.Server
+
+	host := flag.String("h", "127.0.0.1:8000", "h host:port")
+	flag.Parse()
+
+	http2.VerboseLogs = false
+	server.Addr = *host
+	http2.ConfigureServer(&server, nil)
+
+	http.HandleFunc("/", Handler)
+
+	log.Println("ListenAndServe on ", *host)
+
+	log.Fatal(server.ListenAndServeTLS("srv.cert", "srv.key"))
+}
+
+```
+
+```bash
+curl --http2 --insecure https://localhost:8080
+```
+
+
 ## #9 - Error handling
 > 2016-06-02 by [@beyondns](https://github.com/beyondns)
 

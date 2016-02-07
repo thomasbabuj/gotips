@@ -32,9 +32,10 @@ func main() {
 	var server http.Server
 
 	host := flag.String("h", "127.0.0.1:8000", "h host:port")
+	//http2.VerboseLogs = false
+	flag.BoolVar(&http2.VerboseLogs, "verbose", false, "Verbose HTTP/2 debugging.")
 	flag.Parse()
 
-	http2.VerboseLogs = false
 	server.Addr = *host
 	http2.ConfigureServer(&server, nil)
 
@@ -47,10 +48,44 @@ func main() {
 
 ```
 
+CURL
 ```bash
 curl --http2 --insecure https://localhost:8080
 ```
 
+HTTP2 client
+```go
+	host := flag.String("h", "https://127.0.0.1:8000", "h host:port")
+
+	flag.Parse()
+	tr := &http.Transport{TLSClientConfig: tlsConfigInsecure}
+	defer tr.CloseIdleConnections()
+
+	req, err := http.NewRequest("GET", *host, nil)
+	if err != nil {
+		panic(err)
+	}
+	res, err := tr.RoundTrip(req)
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close()
+
+	log.Printf("Got res: %+v\n", res)
+	if g, w := res.StatusCode, 200; g != w {
+		panic(fmt.Sprintf("StatusCode = %v; want %v", g, w))
+	}
+
+	data, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(fmt.Sprintf("Body read error: %v", err))
+	}
+	fmt.Printf("%s\n", string(data))
+
+```
+* [h2demo](https://github.com/golang/net/blob/master/http2/h2demo)
+* [tools-for-debugging-testing-and-using-http-2](https://blog.cloudflare.com/tools-for-debugging-testing-and-using-http-2/)
+* [curl-with-http2-support](https://serversforhackers.com/video/curl-with-http2-support)
 
 ## #9 - Error handling
 > 2016-06-02 by [@beyondns](https://github.com/beyondns)

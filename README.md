@@ -7,7 +7,9 @@ This list of short golang code tips & trics will help keep collected knowledge i
 ## #10 - HTTP2
 > 2016-07-02 by [@beyondns](https://github.com/beyondns)
 
-[Go 1.6's net/http package supports HTTP/2 for both the client and server out of the box.](https://github.com/golang/go/wiki/Go-1.6-release-party)
+[Go 1.6's net/http package supports HTTP/2 for both the client and server out of the box.](https://github.com/golang/go/wiki/Go-1.6-release-party)  
+
+In go 1.6+ HTTP2 is supported transparently, just use http.ListenAndServeTLS
 
 Generate key & cert files with openssl
 ```bash
@@ -21,7 +23,7 @@ import (
 	"log"
 	"flag"
 	"net/http"	
-	"golang.org/x/net/http2"
+	"golang.org/x/net/http2" // optional go 1.6+
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -31,8 +33,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var server http.Server
 
-	host := flag.String("h", "127.0.0.1:8000", "h host:port")
-	//http2.VerboseLogs = false
+	host := flag.String("h", ":8000", "h host:port")
 	flag.BoolVar(&http2.VerboseLogs, "verbose", false, "Verbose HTTP/2 debugging.")
 	flag.Parse()
 

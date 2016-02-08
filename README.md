@@ -4,6 +4,83 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
+
+## #xx - JSON with unknown structure
+> 2016-08-02 by [@papercompute](https://github.com/papercompute)
+
+Parse JSON with unknown structure
+
+```go
+
+func ProcessJSON(s string){
+	var m map[string]interface{}
+
+	if err := json.Unmarshal(s, &m); err != nil {
+		panic(err)
+	}
+
+
+	if err := buildM(m){
+		panic(err)
+	}
+}
+
+func buildQ(k string, v interface{}) error {
+	var ok bool
+
+	if _, ok = v.(map[string]interface{}); ok {
+		err := buildM(v.(map[string]interface{}))
+		if err!=nil {
+			return err
+		}
+	}
+
+	if _, ok = v.([]interface{}); ok {
+		err := buildA(v.([]interface{}))
+		if err!=nil {
+			return err
+		}
+	}
+
+	log.Printf("%s : %s\n",k,v)
+
+	return nil
+}
+
+
+func buildM(m map[string]interface{}) error {
+	for k, v := range m {
+		if err := buildQ(k, v); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+
+func buildA(a []interface{}) error {
+	for c, v := range a {
+		switch v.(type) {
+		case map[string]interface{}:
+			if err := buildM(v.(map[string]interface{})); err != nil {
+				return err
+			}
+		case []interface{}:
+			if err := buildA(v.([]interface{})); err != nil {
+				return err
+			}
+		default:
+			return errors.New("wrong expression in array")
+		}
+	}
+	return nil
+}
+
+
+
+```
+
+
 ## #10 - HTTP2
 > 2016-07-02 by [@beyondns](https://github.com/beyondns)
 

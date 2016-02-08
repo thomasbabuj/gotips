@@ -5,10 +5,10 @@
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
-## #10 - Websocket over HTTP2
+## #11 - Websocket over HTTP2
 > 2016-08-02 by [@beyondns](https://github.com/beyondns)
 
-HTTP2 is supported out of the box with http.ListenAndServeTLS 
+In go 1.6 HTTP2 is supported out of the box with http.ListenAndServeTLS and can be used with websockets. Just use wss connection. 
 
 ```go
 

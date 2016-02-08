@@ -4,6 +4,84 @@
 
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
+
+## #10 - Websocket over HTTP2
+> 2016-08-02 by [@beyondns](https://github.com/beyondns)
+
+HTTP2 is supported out of the box with http.ListenAndServeTLS 
+
+```go
+
+func WSServer(ws *websocket.Conn) {
+	var err error
+	for {
+		var reply string
+
+		if err = websocket.Message.Receive(ws, &reply); err != nil {
+			fmt.Println("Can't receive")
+			break
+		}
+
+		fmt.Println("Received back from client: " + reply)
+
+		msg := "Received:  " + reply
+		fmt.Println("Sending to client: " + msg)
+
+		if err = websocket.Message.Send(ws, msg); err != nil {
+			fmt.Println("Can't send")
+			break
+		}
+	}
+}
+
+func main() {
+	http.Handle("/ws", websocket.Handler(WSServer))
+	http.Handle("/", http.FileServer(http.Dir(".")))
+	err := http.ListenAndServeTLS(":8000", "srv.cert", "srv.key", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+```
+
+JS Client
+
+```js
+      <script type="text/javascript">
+         function WebSocketTest()
+         {
+            if ("WebSocket" in window)
+            {
+               console.log("WebSocket is supported by your Browser!");
+               
+               var ws = new WebSocket("wss://localhost:8000/ws");
+				
+               ws.onopen = function()
+               {
+                  ws.send("Message from client");
+                  console.log("Message is sent...");
+               };
+				
+               ws.onmessage = function (evt) 
+               { 
+                  console.log("Message is received...",evt.data);
+               };
+				
+               ws.onclose = function()
+               { 
+                  console.log("Connection is closed..."); 
+               };
+            }
+            
+            else
+            {
+               console.log("WebSocket NOT supported by your Browser!");
+            }
+         }
+      </script>
+```
+
+
 ## #10 - HTTP2
 > 2016-07-02 by [@beyondns](https://github.com/beyondns)
 
@@ -23,7 +101,7 @@ import (
 	"log"
 	"flag"
 	"net/http"	
-	"golang.org/x/net/http2" // optional go 1.6+
+	"golang.org/x/net/http2" // optional in go 1.6+
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {

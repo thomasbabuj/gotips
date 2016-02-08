@@ -47,39 +47,33 @@ func main() {
 JS Client
 
 ```js
-      <script type="text/javascript">
-         function WebSocketTest()
-         {
-            if ("WebSocket" in window)
-            {
-               console.log("WebSocket is supported by your Browser!");
-               
-               var ws = new WebSocket("wss://localhost:8000/ws");
-				
-               ws.onopen = function()
-               {
-                  ws.send("Message from client");
-                  console.log("Message is sent...");
-               };
-				
-               ws.onmessage = function (evt) 
-               { 
-                  console.log("Message is received...",evt.data);
-               };
-				
-               ws.onclose = function()
-               { 
-                  console.log("Connection is closed..."); 
-               };
-            }
-            
-            else
-            {
-               console.log("WebSocket NOT supported by your Browser!");
-            }
-         }
-      </script>
+<script type="text/javascript">
+    function WebSocketTest() {
+        if ("WebSocket" in window) {
+            console.log("WebSocket is supported by your Browser!");
+
+            var ws = new WebSocket("wss://localhost:8000/ws");
+
+            ws.onopen = function() {
+                ws.send("Message from client");
+                console.log("Message is sent...");
+            };
+
+            ws.onmessage = function(evt) {
+                console.log("Message is received...", evt.data);
+            };
+
+            ws.onclose = function() {
+                console.log("Connection is closed...");
+            };
+        } else {
+            console.log("WebSocket NOT supported by your Browser!");
+        }
+    }
+</script>
 ```
+
+* [websocket](golang.org/x/net/websocket)
 
 
 ## #10 - HTTP2

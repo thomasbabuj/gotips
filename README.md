@@ -11,62 +11,59 @@ This list of short golang code tips & trics will help keep collected knowledge i
 Parse JSON with unknown structure
 
 ```go
-
-func ProcessJSON(s string){
+func ProcessJSON(s string) map[string]interface{} {
 	var m map[string]interface{}
 
-	if err := json.Unmarshal(s, &m); err != nil {
+	if err := json.Unmarshal([]byte(s), &m); err != nil {
 		panic(err)
 	}
 
-
-	if err := buildM(m){
+	if err := passM(m); err != nil {
 		panic(err)
 	}
+	return m
 }
 
-func buildQ(k string, v interface{}) error {
+func passKV(k string, v interface{}) error {
 	var ok bool
 
 	if _, ok = v.(map[string]interface{}); ok {
-		err := buildM(v.(map[string]interface{}))
-		if err!=nil {
+		err := passM(v.(map[string]interface{}))
+		if err != nil {
 			return err
 		}
 	}
 
 	if _, ok = v.([]interface{}); ok {
-		err := buildA(v.([]interface{}))
-		if err!=nil {
+		err := passA(v.([]interface{}))
+		if err != nil {
 			return err
 		}
 	}
 
-	log.Printf("%s : %s\n",k,v)
+	fmt.Printf("%s : %v\n", k, v)
 
 	return nil
 }
 
-
-func buildM(m map[string]interface{}) error {
+func passM(m map[string]interface{}) error {
 	for k, v := range m {
-		if err := buildQ(k, v); err != nil {
+		if err := passKV(k, v); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-
-func buildA(a []interface{}) error {
-	for c, v := range a {
+func passA(a []interface{}) error {
+	for _, v := range a {
 		switch v.(type) {
 		case map[string]interface{}:
-			if err := buildM(v.(map[string]interface{})); err != nil {
+			if err := passM(v.(map[string]interface{})); err != nil {
 				return err
 			}
 		case []interface{}:
-			if err := buildA(v.([]interface{})); err != nil {
+			if err := passA(v.([]interface{})); err != nil {
 				return err
 			}
 		default:
@@ -75,9 +72,6 @@ func buildA(a []interface{}) error {
 	}
 	return nil
 }
-
-
-
 ```
 
 

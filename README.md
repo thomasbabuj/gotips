@@ -5,6 +5,76 @@
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
+
+## #12 - JSON with unknown structure
+> 2016-08-02 by [@papercompute](https://github.com/papercompute)
+
+Parse JSON with unknown structure, just pass map[string]interface{} to json.Unmarshal
+
+```go
+func ProcessJSON(s string) map[string]interface{} {
+	var m map[string]interface{}
+
+	if err := json.Unmarshal([]byte(s), &m); err != nil {
+		panic(err)
+	}
+
+	if err := passM(m); err != nil {
+		panic(err)
+	}
+	return m
+}
+
+func passKV(k string, v interface{}) error {
+	var ok bool
+
+	if _, ok = v.(map[string]interface{}); ok {
+		err := passM(v.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok = v.([]interface{}); ok {
+		err := passA(v.([]interface{}))
+		if err != nil {
+			return err
+		}
+	}
+
+	fmt.Printf("%s : %v\n", k, v)
+
+	return nil
+}
+
+func passM(m map[string]interface{}) error {
+	for k, v := range m {
+		if err := passKV(k, v); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func passA(a []interface{}) error {
+	for _, v := range a {
+		switch v.(type) {
+		case map[string]interface{}:
+			if err := passM(v.(map[string]interface{})); err != nil {
+				return err
+			}
+		case []interface{}:
+			if err := passA(v.([]interface{})); err != nil {
+				return err
+			}
+		default:
+			return errors.New("wrong expression in array")
+		}
+	}
+	return nil
+}
+```
+
 ## #11 - Websocket over HTTP2
 > 2016-08-02 by [@beyondns](https://github.com/beyondns)
 
@@ -574,7 +644,7 @@ a = a[:len(a)-1]
 * [go-slices-usage-and-internals](https://blog.golang.org/go-slices-usage-and-internals)
 * [SliceTricks](https://github.com/golang/go/wiki/SliceTricks)
 
-### General Golanf links
+### General Golang links
 * [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)
 
 ### Inspired by

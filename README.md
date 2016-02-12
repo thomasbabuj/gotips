@@ -38,6 +38,8 @@ export GOPATH=$PWD
 go build add
 ```
 
+* (golang.org/doc/asm)[https://golang.org/doc/asm]
+
 ## #12 - JSON with unknown structure
 > 2016-08-02 by [@papercompute](https://github.com/papercompute)
 

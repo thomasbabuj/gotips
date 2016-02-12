@@ -10,11 +10,11 @@ This list of short golang code tips & trics will help keep collected knowledge i
 > 2016-10-02 by [@beyondns](https://github.com/beyondns)
 
 
-Place add.go & add_asm.s in src/add folder, then build.
+Place add.go & add_asm.s in src/add sub folder, then build.
 
-```asm
+```assembly
 // add_asm.s
-TEXT add(SB),NOSPLIT,$0
+TEXT add(SB),$0
         MOVL x+0(FP), BX
         MOVL y+4(FP), BP
         ADDL BP, BX
@@ -30,12 +30,16 @@ func main() {
 	r:=add(2,5)
 	fmt.Println(r)
 }
-
 ```
 
 ```bash
 export GOPATH=$PWD 
 go build add
+```
+
+Compile from go to asm
+```bash
+go tool compile -S code.go > code.s
 ```
 
 * (golang.org/doc/asm)[https://golang.org/doc/asm]

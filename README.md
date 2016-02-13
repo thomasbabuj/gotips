@@ -43,6 +43,7 @@ go tool compile -S code.go > code.s
 ```
 
 * (golang.org/doc/asm)[https://golang.org/doc/asm]
+* (goroutines.com/asm)[https://goroutines.com/asm]
 
 ## #12 - JSON with unknown structure
 > 2016-08-02 by [@papercompute](https://github.com/papercompute)

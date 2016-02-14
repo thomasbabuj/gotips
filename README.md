@@ -5,6 +5,84 @@
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
+## #14 - Benchmark switch vs else if
+> 2016-14-02 by [@beyondns](https://github.com/beyondns)
+
+```go
+import (
+	"testing"
+)
+
+var words = []string{"alpha", "betta", "gamma", "tetta", "lyambda", "hero", "boom", "karamba", "cotoff"}
+var wlen = len(words)
+
+func BenchmarkSwitch(b *testing.B) {
+	m := make(map[string]int)
+	j := 0
+	for i := 0; i < b.N; i++ {
+		s := words[j]
+		j = (j + 1) % wlen
+		switch s {
+		case "alpha":
+			m[s]++
+		case "betta":
+			m[s]++
+		case "gamma":
+			m[s]++
+		case "tetta":
+			m[s]++
+		case "lyambda":
+			m[s]++
+		case "hero":
+			m[s]++
+		case "boom":
+			m[s]++
+		case "karamba":
+			m[s]++
+		case "cotoff":
+			m[s]++
+		}
+	}
+	//fmt.Printf("%v\n", m)
+}
+
+func BenchmarkIf(b *testing.B) {
+	m := make(map[string]int)
+	j := 0
+	for i := 0; i < b.N; i++ {
+		w := words[j]
+		j = (j + 1) % wlen
+		if w == "alpha" {
+			m[w]++
+		} else if w == "betta" {
+			m[w]++
+		} else if w == "gamma" {
+			m[w]++
+		} else if w == "tetta" {
+			m[w]++
+		} else if w == "lyambda" {
+			m[w]++
+		} else if w == "hero" {
+			m[w]++
+		} else if w == "boom" {
+			m[w]++
+		} else if w == "karamba" {
+			m[w]++
+		} else if w == "cotoff" {
+			m[w]++
+		}
+	}
+	//fmt.Printf("%v\n", m)
+}
+
+```
+
+```bash
+go test -bench=.
+```
+
+* [golang.org/pkg/testing/](https://golang.org/pkg/testing/)
+* [github.com/golang/go/issues/10000](https://github.com/golang/go/issues/10000)
 
 ## #13 - Use ASM in Go Code 
 > 2016-10-02 by [@beyondns](https://github.com/beyondns)

@@ -181,7 +181,7 @@ export GOPATH=$PWD
 go build add
 ```
 
-To play with go/asm code compile from go to asm
+To play with go/asm code compile
 ```bash
 go tool compile -S code.go > code.s
 ```
@@ -831,7 +831,7 @@ a = a[:len(a)-1]
 * [50 Shades of Go: Traps, Gotchas, and Common Mistakes for New Golang Devs](http://devs.cloudimmunity.com/gotchas-and-common-mistakes-in-go-golang/)
 
 ### Inspired by
-[jstips](https://github.com/loverajoel/jstips)
+* [jstips](https://github.com/loverajoel/jstips)
 
 ### License
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)

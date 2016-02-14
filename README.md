@@ -9,6 +9,7 @@ This list of short golang code tips & trics will help keep collected knowledge i
 
 # Tips list
 
+- 15 - [Time interval measurement](https://github.com/beyondns/gotips#15---time-interval-measurement)
 - 14 - [Benchmark switch vs else if](https://github.com/beyondns/gotips#14---benchmark-switch-vs-else-if)
 - 13 - [Use ASM in Go Code](https://github.com/beyondns/gotips#13---use-asm-in-go-code)
 - 12 - [JSON with unknown structure](https://github.com/beyondns/gotips#12---json-with-unknown-structure)
@@ -24,6 +25,16 @@ This list of short golang code tips & trics will help keep collected knowledge i
 -  2 - [Import packages](https://github.com/beyondns/gotips#2---import-packages)
 -  1 - [Map](https://github.com/beyondns/gotips#1---map)
 -  0 - [Slices](https://github.com/beyondns/gotips#0---slices)
+
+## #15 - Time interval measurement
+> 2016-14-02 by [@beyondns](https://github.com/beyondns)
+
+```go
+	start := time.Now()
+	DoHardWork() // or time.Sleep(1 * time.Second)
+	finish := time.Since(start)
+	fmt.Printf("Hard work finished in %d ms.\n", finish.Nanoseconds()/10e6)
+``` 
 
 ## #14 - Benchmark switch vs else if
 > 2016-14-02 by [@beyondns](https://github.com/beyondns)
@@ -101,7 +112,11 @@ func BenchmarkSwitch(b *testing.B) {
 			m[s]++
 		}
 	}
-	fmt.Printf("%d\n", len(m))
+	var c int
+	for _,v:=range m{
+		c=c+v
+	}
+	fmt.Printf("%d %d\n", len(m),c)
 }
 
 func BenchmarkIf(b *testing.B) {
@@ -160,7 +175,11 @@ func BenchmarkIf(b *testing.B) {
 			m[w]++
 		}
 	}
-	fmt.Printf("%d\n", len(m))
+	c:=0
+	for _,v:=range m{
+		c=c+v
+	}
+	fmt.Printf("%d %d\n", len(m),c)
 }
 
 ```

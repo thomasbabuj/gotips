@@ -9,7 +9,6 @@ This list of short golang code tips & trics will help keep collected knowledge i
 ## #13 - Use ASM in Go Code 
 > 2016-10-02 by [@beyondns](https://github.com/beyondns)
 
-
 Place add.go & add_asm.s in src/add sub folder, then build.
 
 ```assembly
@@ -21,7 +20,6 @@ TEXT add(SB),$0
         MOVL BX, ret+8(FP)
         RET
 ```
-
 ```go
 // main.go
 func add(x, y int32) int32
@@ -37,13 +35,13 @@ export GOPATH=$PWD
 go build add
 ```
 
-Compile from go to asm
+To play with go/asm code compile from go to asm
 ```bash
 go tool compile -S code.go > code.s
 ```
 
-* (golang.org/doc/asm)[https://golang.org/doc/asm]
-* (goroutines.com/asm)[https://goroutines.com/asm]
+* [golang.org/doc/asm](https://golang.org/doc/asm)
+* [goroutines.com/asm](https://goroutines.com/asm)
 
 ## #12 - JSON with unknown structure
 > 2016-08-02 by [@papercompute](https://github.com/papercompute)

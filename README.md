@@ -5,6 +5,26 @@
 This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
 
 
+> Don't forget to Star the repo, as this will help to promote the project!
+
+# Tips list
+
+- 14 - [Benchmark switch vs else if](https://github.com/beyondns/gotips#14---benchmark-switch-vs-else-if)
+- 13 - [Use ASM in Go Code](https://github.com/beyondns/gotips#13---use-asm-in-go-code)
+- 12 - [JSON with unknown structure](https://github.com/beyondns/gotips#12---json-with-unknown-structure)
+- 11 - [Websocket over HTTP2](https://github.com/beyondns/gotips#11---websocket-over-http2)
+- 10 - [HTTP2](https://github.com/beyondns/gotips#10---http2)
+- 9 - [Error handling](https://github.com/beyondns/gotips#9---error-handling)
+- 8 - [Memory management with pools of objects](https://github.com/beyondns/gotips#8---memory-management-with-pools-of-objects)
+- 7 - [Sort slice of time periods](https://github.com/beyondns/gotips#7---sort-slice-of-time-periods)
+- 6 - [Fast http server](https://github.com/beyondns/gotips#6---fast-http-server)
+- 5 - [Close channel to notify many](https://github.com/beyondns/gotips#5---close-channel-to-notify-many)
+- 4 - [Is channel closed?](https://github.com/beyondns/gotips#4---is-channel-closed)
+- 3 - [Http request/response with close notify and timeout](https://github.com/beyondns/gotips#3---http-requestresponse-with-close-notify-and-timeout)
+- 2 - [Import packages](https://github.com/beyondns/gotips#2---import-packages)
+- 1 - [Map](https://github.com/beyondns/gotips#1---map)
+- 0 - [Slices](https://github.com/beyondns/gotips#0---slices)
+
 ## #14 - Benchmark switch vs else if
 > 2016-14-02 by [@beyondns](https://github.com/beyondns)
 

@@ -9,70 +9,138 @@ This list of short golang code tips & trics will help keep collected knowledge i
 > 2016-14-02 by [@beyondns](https://github.com/beyondns)
 
 ```go
+package boom
+
 import (
+	"fmt"
+	"math/rand"
 	"testing"
 )
 
-var words = []string{"alpha", "betta", "gamma", "tetta", "lyambda", "hero", "boom", "karamba", "cotoff"}
+var words = []string{
+	"alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta",
+	"iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho",
+	"sigma", "tau", "upsilon", "phi", "chi", "psi", "omega",
+}
 var wlen = len(words)
 
 func BenchmarkSwitch(b *testing.B) {
 	m := make(map[string]int)
-	j := 0
+	rand.Seed(376234242)
 	for i := 0; i < b.N; i++ {
+		j := rand.Intn(wlen)
 		s := words[j]
-		j = (j + 1) % wlen
 		switch s {
 		case "alpha":
 			m[s]++
-		case "betta":
+		case "beta":
 			m[s]++
 		case "gamma":
 			m[s]++
-		case "tetta":
+		case "delta":
 			m[s]++
-		case "lyambda":
+		case "epsilon":
 			m[s]++
-		case "hero":
+		case "zeta":
 			m[s]++
-		case "boom":
+		case "eta":
 			m[s]++
-		case "karamba":
+		case "theta":
 			m[s]++
-		case "cotoff":
+		case "iota":
+			m[s]++
+		case "kappa":
+			m[s]++
+		case "lambda":
+			m[s]++
+		case "mu":
+			m[s]++
+		case "nu":
+			m[s]++
+		case "xi":
+			m[s]++
+		case "omicron":
+			m[s]++
+		case "pi":
+			m[s]++
+		case "rho":
+			m[s]++
+		case "sigma":
+			m[s]++
+		case "tau":
+			m[s]++
+		case "upsilon":
+			m[s]++
+		case "phi":
+			m[s]++
+		case "chi":
+			m[s]++
+		case "psi":
+			m[s]++
+		case "omega":
 			m[s]++
 		}
 	}
-	//fmt.Printf("%v\n", m)
+	fmt.Printf("%d\n", len(m))
 }
 
 func BenchmarkIf(b *testing.B) {
 	m := make(map[string]int)
-	j := 0
+	rand.Seed(376234242)
 	for i := 0; i < b.N; i++ {
+		j:= rand.Intn(wlen)
 		w := words[j]
-		j = (j + 1) % wlen
 		if w == "alpha" {
 			m[w]++
-		} else if w == "betta" {
+		} else if w == "beta" {
 			m[w]++
 		} else if w == "gamma" {
 			m[w]++
-		} else if w == "tetta" {
+		} else if w == "delta" {
 			m[w]++
-		} else if w == "lyambda" {
+		} else if w == "epsilon" {
 			m[w]++
-		} else if w == "hero" {
+		} else if w == "zeta" {
 			m[w]++
-		} else if w == "boom" {
+		} else if w == "eta" {
 			m[w]++
-		} else if w == "karamba" {
+		} else if w == "theta" {
 			m[w]++
-		} else if w == "cotoff" {
+		} else if w == "iota" {
+			m[w]++
+		} else if w == "kappa" {
+			m[w]++
+		} else if w == "lambda" {
+			m[w]++
+		} else if w == "mu" {
+			m[w]++
+		} else if w == "nu" {
+			m[w]++
+		} else if w == "xi" {
+			m[w]++
+		} else if w == "omicron" {
+			m[w]++
+		} else if w == "pi" {
+			m[w]++
+		} else if w == "rho" {
+			m[w]++
+		} else if w == "sigma" {
+			m[w]++
+		} else if w == "tau" {
+			m[w]++
+		} else if w == "upsilon" {
+			m[w]++
+		} else if w == "phi" {
+			m[w]++
+		} else if w == "chi" {
+			m[w]++
+		} else if w == "psi" {
+			m[w]++
+		} else if w == "omega" {
 			m[w]++
 		}
 	}
-	//fmt.Printf("%v\n", m)
+	fmt.Printf("%d\n", len(m))
 }
 
 ```

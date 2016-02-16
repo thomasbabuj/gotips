@@ -2,8 +2,15 @@
 
 > **Golang short tips & trics**
 
-This list of short golang code tips & trics will help keep collected knowledge in one place. Do not hesitate to pull request new ones, just add new tip on top of list with title, date, description and code, please see tips as a reference.
+This list of short golang code tips & trics will help keep collected knowledge in one place. 
 
+> Can you help make it better?
+
+Please feel free to send a PR with your own Golang tip to be published here. Any improvements or suggestions are welcome!  
+
+> Contributing
+
+Make PR add new tip on top of list with title, date, description, code and links, please see tips as a reference.
 
 > Don't forget to Star the repo, as this will help to promote the project!
 

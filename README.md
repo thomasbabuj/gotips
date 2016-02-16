@@ -41,7 +41,7 @@ Make PR add new tip on top of list with title, date, description, code and links
 Some APIs are designed with context interface, google search is an example. Use context to send cancel signal.
 
 ```go
-	done := make(chan error)
+	done := make(chan error,1)
 	query := "golang context"
 	ctx, cancel := context.WithCancel(context.Background())
 	// or use ctx, cancel = context.WithTimeout(context.Background(), queryTimeLimit)
@@ -55,6 +55,7 @@ Some APIs are designed with context interface, google search is an example. Use 
 	select {
 	case <-time.After(queryTimeLimit):
 		cancel()
+		<-done // wait
 		fmt.Printf("time out")
 	case err :=<- done:
 		if err != nil {

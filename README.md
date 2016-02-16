@@ -9,6 +9,7 @@ This list of short golang code tips & trics will help keep collected knowledge i
 
 # Tips list
 
+- 17 - [Use context API](https://github.com/beyondns/gotips#17---use-context-api)
 - 16 - [Go routines syncronization](https://github.com/beyondns/gotips#16---go-routines-syncronization)
 - 15 - [Time interval measurement](https://github.com/beyondns/gotips#15---time-interval-measurement)
 - 14 - [Benchmark switch vs else if](https://github.com/beyondns/gotips#14---benchmark-switch-vs-else-if)
@@ -26,6 +27,38 @@ This list of short golang code tips & trics will help keep collected knowledge i
 -  2 - [Import packages](https://github.com/beyondns/gotips#2---import-packages)
 -  1 - [Map](https://github.com/beyondns/gotips#1---map)
 -  0 - [Slices](https://github.com/beyondns/gotips#0---slices)
+
+## #17 - Use context API
+> 2016-16-02 by [@beyondns](https://github.com/beyondns)
+
+Some APIs are designed with context interface, google search is an example. Use context to send cancel signal.
+
+```go
+	done := make(chan error)
+	query := "golang context"
+	ctx, cancel := context.WithCancel(context.Background())
+	// or use ctx, cancel = context.WithTimeout(context.Background(), queryTimeLimit)
+	go func() {
+		start := time.Now()
+		_, err := google.Search(ctx, query)
+		elapsed := time.Since(start)
+		fmt.Printf("search time %v", elapsed)
+		done <- err
+	}()
+	select {
+	case <-time.After(queryTimeLimit):
+		cancel()
+		fmt.Printf("time out")
+	case err :=<- done:
+		if err != nil {
+			panic(err)
+		}
+	}	
+	fmt.Printf("Done")
+```
+
+* [blog.golang.org/context](https://blog.golang.org/context)
+* [blog.golang.org/context/server/server.go](https://blog.golang.org/context/server/server.go)
 
 ## #16 - Go routines syncronization
 > 2016-16-02 by [@beyondns](https://github.com/beyondns)

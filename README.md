@@ -9,7 +9,7 @@ This list of short golang code tips & trics will help keep collected knowledge i
 
 # Tips list
 
-- 16 - [Go routines syncronization](https://github.com/beyondns/gotips#15---go-routines-syncronization)
+- 16 - [Go routines syncronization](https://github.com/beyondns/gotips#16---go-routines-syncronization)
 - 15 - [Time interval measurement](https://github.com/beyondns/gotips#15---time-interval-measurement)
 - 14 - [Benchmark switch vs else if](https://github.com/beyondns/gotips#14---benchmark-switch-vs-else-if)
 - 13 - [Use ASM in Go Code](https://github.com/beyondns/gotips#13---use-asm-in-go-code)

@@ -32,20 +32,47 @@ This list of short golang code tips & trics will help keep collected knowledge i
 
 * Wait groups
 ```go
-  const N = 3
-  var wg sync.WaitGroup
-  wg.Add(N)
-  for i := 0; i < N; i++ {
-  	go func(i int) {
-  		defer wg.Done()
-		fmt.Println(i)
-	}(i)
-  }
-  wg.Wait()
-  fmt.Println("Done")
+	const N = 3
+	var wg sync.WaitGroup
+	wg.Add(N)
+	for i := 0; i < N; i++ {
+		go func(i int) {
+			defer wg.Done()
+			fmt.Println(i)
+		}(i)
+	}
+	wg.Wait()
+	fmt.Println("Done")
 ```
-[play](https://play.golang.org/p/0LLtAQk6Lm)
+[run](https://play.golang.org/p/0LLtAQk6Lm)
 
+
+* Channels
+```go
+	const N = 3
+	done := make(chan struct{})
+	for i := 0; i < N; i++ {
+		go func(i int) {
+			defer func() { done <- struct{}{} }()
+			fmt.Println(i)
+		}(i)
+	}
+	var counter = 0
+	for {
+		select {
+		case <-time.After(time.Second * 1):
+			panic("time out")
+		case <-done:
+			counter++
+			if counter == N {
+				goto DONE
+			}
+		}
+	}
+DONE:
+	fmt.Println("Done")
+```
+[run](https://play.golang.org/p/88J0jUm95v)
 
 * [how-to-wait-for-all-goroutines-to-finish-executing-before-continuing](http://nathanleclaire.com/blog/2014/02/15/how-to-wait-for-all-goroutines-to-finish-executing-before-continuing/)
 

@@ -30,10 +30,10 @@ This list of short golang code tips & trics will help keep collected knowledge i
 > 2016-14-02 by [@beyondns](https://github.com/beyondns)
 
 ```go
-	start := time.Now()
-	DoHardWork() // or time.Sleep(1 * time.Second)
-	finish := time.Since(start)
-	fmt.Printf("Hard work finished in %d ms.\n", finish.Nanoseconds()/10e6)
+  start := time.Now()
+  DoHardWork() // or time.Sleep(1 * time.Second)
+  finish := time.Since(start)
+  fmt.Printf("Hard work finished in %d ms.\n", finish.Nanoseconds()/10e6)
 ``` 
 
 ## #14 - Benchmark switch vs else if

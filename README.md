@@ -31,7 +31,21 @@ This list of short golang code tips & trics will help keep collected knowledge i
 > 2016-16-02 by [@beyondns](https://github.com/beyondns)
 
 * Wait groups
-<iframe src="https://play.golang.org/p/0LLtAQk6Lm" frameborder="0" style="width: 100%; height: 100%"><a href="https://play.golang.org/p/0LLtAQk6Lm">see this code in play.golang.org</a></iframe>
+```go
+  const N = 3
+  var wg sync.WaitGroup
+  wg.Add(N)
+  for i := 0; i < N; i++ {
+  	go func(i int) {
+  		defer wg.Done()
+		fmt.Println(i)
+	}(i)
+  }
+  wg.Wait()
+  fmt.Println("Done")
+```
+[play](https://play.golang.org/p/0LLtAQk6Lm)
+
 
 * [how-to-wait-for-all-goroutines-to-finish-executing-before-continuing](http://nathanleclaire.com/blog/2014/02/15/how-to-wait-for-all-goroutines-to-finish-executing-before-continuing/)
 
